@@ -30,11 +30,11 @@ let imageUrl = getImageUrl(data.image.url)
 </div>
       </div>
       <div class=" relative z-10 mt-4 w-full overflow-hidden bg-white px-4 pb-32 dark:bg-zinc-900 lg:mt-14 lg:flex lg:h-full lg:items-center lg:bg-transparent lg:p-48 lg:pt-32">
-        <div class="container mx-auto lg:flex lg:max-w-[72rem]">
-          <div class="space-y-7  lg:mx-0 lg:w-1/2 lg:space-y-8">
+        <div class=" mx-auto lg:flex lg:max-w-[72rem]">
+          <div class=" lg:mx-0 lg:w-2/3 lg:space-y-8">
             <div class="space-y-6 lg:space-y-10">
               <div class="space-y-4 lg:space-y-8">
-                <h1 class="text-3xl leading-snug tracking-tight dark:text-white sm:leading-normal lg:text-6xl lg:font-light ">
+                <h1 class="text-3xl leading-snug tracking-tight dark:text-white sm:leading-normal lg:text-6xl lg:font-light">
                  {@html data.title_html}
                 </h1>
                 <p class="text-md leading-normal text-slate-500 sm:leading-relaxed lg:text-xl lg:font-light lg:leading-normal">
@@ -53,11 +53,11 @@ let imageUrl = getImageUrl(data.image.url)
                 <div class="mt-4 flex items-center  lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:p-[6px] ">
                   <Button
                     type="submit"
-                    class=""
-                    variant='solid'
+                    class=" w-full justify-center py-8 ease-in-out lg:inline-flex lg:px-10 lg:py-8"
+                    variant='sky'
                   >
                     <span>
-                      <span class="overflow-hidden text-white transition duration-300 ease-in-out ">
+                      <span class="overflow-hidden transition duration-300 ease-in-out">
                         Subscribe
                       </span>
                     </span>
@@ -73,7 +73,7 @@ let imageUrl = getImageUrl(data.image.url)
               viewBox="10 10 500 400"
               width="100%"
               id="blobSvg"
-              class="absolute -bottom-96 -right-96 z-0 h-auto w-[175%]"
+              class="absolute -bottom-72 -right-80 z-0 h-auto w-[175%]"
             >
               <defs>
   <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
