@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://localhost:3000/api'; // Replace with your actual Pa
 
 export const getPayloadData = async (path) => {
 	try {
-		const response = await axios.get(`${API_BASE_URL}${path}`);
+		const response = await axios.get(`${API_BASE_URL}${path}?depth=1`);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching data:', error);

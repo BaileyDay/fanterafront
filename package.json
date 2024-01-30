@@ -16,6 +16,7 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.0",
+		"@types/node": "^20.11.10",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.17",
@@ -34,6 +35,21 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"axios": "^1.6.7"
+		"@internationalized/date": "^3.5.1",
+		"axios": "^1.6.7",
+		"bits-ui": "^0.16.0",
+		"clsx": "^2.1.0",
+		"cmdk-sv": "^0.0.13",
+		"embla-carousel-svelte": "^8.0.0-rc21",
+		"formsnap": "^0.4.3",
+		"lucide-svelte": "^0.316.0",
+		"mode-watcher": "^0.1.2",
+		"radix-icons-svelte": "^1.2.1",
+		"svelte-sonner": "^0.3.11",
+		"sveltekit-superforms": "^1.13.4",
+		"tailwind-merge": "^2.2.1",
+		"tailwind-variants": "^0.1.20",
+		"vaul-svelte": "^0.2.0",
+		"zod": "^3.22.4"
 	}
 }
