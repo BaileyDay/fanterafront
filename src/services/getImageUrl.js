@@ -1,7 +1,7 @@
 // src/lib/getImageUrl.js
 
 // Fetch the SITE_URL from environment variables
-const siteUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const siteUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 /**
  * Get the full URL for an image.
