@@ -2,21 +2,17 @@
 	import { onMount, onDestroy } from 'svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { Menu } from 'lucide-svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { getGlobalBySlug } from '../services/api';
 
 	let navClass = '';
 	let drawerOpen = false;
 
-	// Navigation items
-	const navItems = [
-		{ text: 'News', href: '/category/news' },
-		{ text: 'Reviews', href: '/category/reviews' },
-		{ text: 'Streaming', href: '/category/streaming' },
-		{ text: 'Manga', href: '/category/manga' },
-		{ text: 'Events', href: '/category/events' },
-		{ text: 'Culture', href: '/category/culture' },
-		{ text: 'Merchandise', href: '/category/merchandise' }
-	];
+	let globalData = { pages: [] };
+
+	onMount(async () => {
+		const data = await getGlobalBySlug('nav');
+		globalData = data;
+	});
 
 	// Handle scroll to adjust navbar class
 	function handleScroll() {
@@ -56,8 +52,8 @@
 					<Sheet.Title>Menu</Sheet.Title>
 				</Sheet.Header>
 				<div class="p-4">
-					{#each navItems as { text, href }}
-						<a {href} class="block p-2">{text}</a>
+					{#each globalData.pages as page}
+						<a href="/{page.page.slug}" class="block p-2">{page.page.title}</a>
 					{/each}
 				</div>
 			</Sheet.Content>
@@ -78,17 +74,26 @@
 		<!-- Invisible placeholder to balance the flex layout -->
 	</div>
 	<ul class="hidden space-x-8 lg:flex">
-		{#each navItems as { text, href }}
+		{#each globalData.pages as page}
 			<li>
-				<a {href} class="block text-slate-900 hover:text-sky-500 dark:text-white">{text}</a>
+				<a href="/{page.page.slug}" class="block text-slate-900 hover:text-sky-500 dark:text-white"
+					>{page.page.title}</a
+				>
 			</li>
 		{/each}
 	</ul>
-	<div class="flex items-center">
-		<Button
-			href="/subscribe"
-			class="text-sm text-white lg:mr-0 lg:px-10 lg:py-8 lg:text-base lg:font-semibold lg:ml-6"
-			>Subscribe</Button
-		>
-	</div>
+	<a
+		href="/subscribe"
+		type="button"
+		class="relative ml-2 inline-flex flex-none overflow-hidden rounded-full border border-white p-2 text-center text-sm
+  font-light text-white transition duration-300 ease-in-out hover:text-white focus:outline-none focus:ring-4 lg:mr-0 lg:rounded-xl lg:border-2 lg:border-none lg:px-10 lg:py-6 lg:font-semibold"
+	>
+		<span
+			class="absolute left-0 top-0 z-0 h-full w-full transition-opacity duration-300 ease-in-out lg:bg-gradient-to-br lg:from-blue-500 lg:to-sky-400"
+		></span>
+		<span
+			class="absolute left-0 top-0 z-0 h-full w-full opacity-0 transition-opacity duration-300 ease-in-out hover:opacity-100 lg:bg-gradient-to-br lg:from-blue-600 lg:to-sky-500"
+		></span>
+		<span class="relative z-10">Subscribe</span>
+	</a>
 </nav>

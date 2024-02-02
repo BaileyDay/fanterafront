@@ -2,9 +2,9 @@
 	import * as Table from '$lib/components/ui/table';
 	import * as Card from '$lib/components/ui/card';
 	import { onMount } from 'svelte';
-	import { Badge } from '$lib/components/ui/badge';
+	import { Globe2, Tv, Clock } from 'lucide-svelte';
 
-	let scheduleData = null;
+	let scheduleData = [];
 
 	onMount(async () => {
 		const response = await fetch('/api/getschedule');
@@ -15,16 +15,7 @@
 		}
 	});
 
-	function getBadgeClass(airType) {
-		if (airType === 'dub') {
-			return 'bg-blue-500 border-blue-600';
-		} else if (airType === 'sub') {
-			return 'bg-yellow-500 border-yellow-600';
-		} else {
-			return 'bg-gray-500 border-gray-600'; // Default or other types
-		}
-	}
-
+	// This function is unnecessary if using reactive statements for UI updates
 	function getPingColor(scheduleData) {
 		if (!scheduleData) {
 			return 'bg-red-500';
@@ -33,27 +24,36 @@
 		}
 	}
 
+	// Reactive statement to continuously update the countdown for each episode
+	$: if (scheduleData.length > 0) {
+		scheduleData = scheduleData.map((anime) => ({
+			...anime,
+			countdown: calculateTimeLeft(anime.episodeDate)
+		}));
+	}
+	setInterval(() => {
+		scheduleData = scheduleData; // Trigger reactivity
+	}, 1000);
+
 	function calculateTimeLeft(episodeDate) {
 		const now = new Date();
 		const releaseDate = new Date(episodeDate);
 		const difference = releaseDate - now;
 
-		let timeLeft = {};
-
 		if (difference > 0) {
-			timeLeft = {
+			return {
 				days: Math.floor(difference / (1000 * 60 * 60 * 24)),
 				hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
 				minutes: Math.floor((difference / 1000 / 60) % 60),
 				seconds: Math.floor((difference / 1000) % 60)
 			};
 		}
-
-		return timeLeft;
+		return '00:00:00'; // Return a default value if the date has passed
 	}
 
 	function formatCountdown(countdown) {
-		return `${countdown.days}d ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`;
+		if (typeof countdown === 'string') return countdown; // If countdown is already a string, return as is
+		return `${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`;
 	}
 </script>
 
@@ -91,24 +91,41 @@
 						</Table.Header>
 						<Table.Body>
 							{#each scheduleData as anime}
-								<div class="mb-2 md:mb-0 shadow-md rounded-lg overflow-hidden">
+								<div class="mb-2 md:mb-0 shadow-md rounded-lg overflow-hidden relative">
+									<!-- Gradient Overlay -->
+									<div
+										class="absolute inset-0 bg-gradient-to-b from-sky-500 via-zinc-900/40 z-10"
+									></div>
+
+									<!-- Background Image -->
 									<div
 										class="relative block bg-cover bg-center p-6"
-										style="background-image: url('https://img.animeschedule.net/production/assets/public/img/{anime.imageVersionRoute}');"
+										style="background-image: url('https://img.animeschedule.net/production/assets/public/img/{anime.imageVersionRoute}'); "
 									>
 										<!-- Overlay content -->
-										<div class="">
-											<div class=" text-white font-extrabold p-4 rounded-lg drop-shadow-xl text-lg">
+										<div class="relative z-50">
+											<div class="text-white font-extrabold p-4 rounded-lg drop-shadow-xl text-lg">
 												{anime.english || anime.title}
 											</div>
-											<div class="flex justify-between items-center text-sm text-white mt-4">
-												<Badge class={getBadgeClass(anime.airType)}>{anime.airType}</Badge>
-												<Badge class="bg-green-500 border-green-600"
-													>Episode {anime.episodeNumber}</Badge
-												>
-												<Badge class="bg-red-500 border-red-600">
-													{formatCountdown(calculateTimeLeft(anime.episodeDate))}
-												</Badge>
+											<div
+												class="flex justify-between items-center text-sm text-white mt-4 bg-sky-500 bg-opacity-40 p-2 rounded-md"
+											>
+												<div class="flex items-center space-x-1">
+													<Globe2 class="h-5 w-5" />
+													<p class="font-bold">
+														{anime.airType.toUpperCase()}
+													</p>
+												</div>
+												<div class="flex items-center space-x-1">
+													<Tv class="h-5 w-5" />
+													<p class="font-bold">Ep.{anime.episodeNumber}</p>
+												</div>
+												<div class="flex items-center space-x-1">
+													<Clock class="h-5 w-5" />
+													<p class="font-bold text-sm">
+														{formatCountdown(calculateTimeLeft(anime.episodeDate))}
+													</p>
+												</div>
 											</div>
 										</div>
 									</div>

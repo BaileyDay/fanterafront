@@ -1,12 +1,17 @@
-import { getPageBySlug } from '../services/api';
+import { getPageBySlug } from '../../services/api.js';
+import { error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 export async function load({ params }) {
 	let pageData;
-	let slug = 'home'; // Default slug or use params.slug if dynamic
+
+	if (params.slug == 'home') {
+		redirect(307, '/');
+	}
 
 	try {
 		// Directly use the response from getPageBySlug
-		pageData = await getPageBySlug(slug);
+		pageData = await getPageBySlug(params.slug);
 	} catch (error) {
 		console.error('Error fetching page:', error);
 	}
@@ -16,9 +21,6 @@ export async function load({ params }) {
 		return pageData; // Correctly pass pageData as props
 	} else {
 		// Handle case where no page data is found, perhaps return an error status or default data
-		return {
-			status: 404,
-			props: { error: 'Page not found' }
-		};
+		error(404, 'Not found');
 	}
 }
