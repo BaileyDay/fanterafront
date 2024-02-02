@@ -27,13 +27,6 @@
 	}
 
 	// Register and clean up the scroll event listener
-	onMount(() => {
-		handleScroll(); // Call initially in case the page is not at the top
-		window.addEventListener('scroll', handleScroll);
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
-	});
 
 	// Toggle the drawer state
 	function toggleDrawer() {
