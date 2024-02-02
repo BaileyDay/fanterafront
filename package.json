@@ -37,6 +37,7 @@
 	"type": "module",
 	"dependencies": {
 		"@internationalized/date": "^3.5.1",
+		"@tabler/icons-svelte": "^2.47.0",
 		"axios": "^1.6.7",
 		"bits-ui": "^0.16.0",
 		"clsx": "^2.1.0",
@@ -46,7 +47,6 @@
 		"formsnap": "^0.4.3",
 		"lucide-svelte": "^0.316.0",
 		"mode-watcher": "^0.1.2",
-		"radix-icons-svelte": "^1.2.1",
 		"svelte-sonner": "^0.3.11",
 		"sveltekit-superforms": "^1.13.4",
 		"tailwind-merge": "^2.2.1",

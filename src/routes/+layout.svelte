@@ -1,4 +1,8 @@
 <script>
-  import "../app.css";
+	import '../app.css';
+	import Nav from '../globals/nav.svelte';
 </script>
-<slot></slot>
+
+<Nav />
+
+<slot />
