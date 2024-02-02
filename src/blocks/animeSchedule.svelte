@@ -4,7 +4,6 @@
 	import { onMount } from 'svelte';
 	import { Badge } from '$lib/components/ui/badge';
 
-	export let data;
 	let scheduleData = null;
 
 	onMount(async () => {
