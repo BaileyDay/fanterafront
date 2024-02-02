@@ -37,7 +37,6 @@
 	"type": "module",
 	"dependencies": {
 		"@internationalized/date": "^3.5.1",
-		"@tabler/icons-svelte": "^2.47.0",
 		"axios": "^1.6.7",
 		"bits-ui": "^0.16.0",
 		"clsx": "^2.1.0",

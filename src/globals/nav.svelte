@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
-	import { IconMenu2 } from '@tabler/icons-svelte';
+	import { Menu } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	let navClass = '';
@@ -17,6 +17,28 @@
 		{ text: 'Culture', href: '/category/culture' },
 		{ text: 'Merchandise', href: '/category/merchandise' }
 	];
+
+	// Handle scroll to adjust navbar class
+	function handleScroll() {
+		navClass =
+			window.scrollY > 0
+				? `${drawerOpen ? 'shadow-none' : 'shadow-md'} lg:pt-4 bg-sky-500 lg:bg-white lg:dark:bg-zinc-800`
+				: 'lg:pt-12 lg:dark:bg-zinc-900';
+	}
+
+	// Register and clean up the scroll event listener
+	onMount(() => {
+		handleScroll(); // Call initially in case the page is not at the top
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	});
+
+	// Toggle the drawer state
+	function toggleDrawer() {
+		drawerOpen = !drawerOpen;
+	}
 </script>
 
 <nav
@@ -25,8 +47,8 @@
 	<div class="flex items-center lg:hidden">
 		<Sheet.Root>
 			<Sheet.Trigger>
-				<button class="p-2">
-					<IconMenu2 class="text-white" />
+				<button on:click={toggleDrawer} class="p-2">
+					<Menu class="text-white" />
 				</button>
 			</Sheet.Trigger>
 			<Sheet.Content side="left">
@@ -65,7 +87,7 @@
 	<div class="flex items-center">
 		<Button
 			href="/subscribe"
-			class="text-sm text-white lg:mr-0 lg:px-10 lg:py-8 lg:text-base lg:font-semibold lg:ml-6 lg:bg-sky-500"
+			class="text-sm text-white lg:mr-0 lg:px-10 lg:py-8 lg:text-base lg:font-semibold lg:ml-6"
 			>Subscribe</Button
 		>
 	</div>
