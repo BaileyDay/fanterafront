@@ -1,4 +1,4 @@
-import { getPageBySlug } from '../services/api';
+import { getPageBySlug } from '../../services/api';
 
 export async function load({ params }) {
 	let pageData;

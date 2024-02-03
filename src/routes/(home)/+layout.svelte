@@ -1,6 +1,5 @@
 <script>
-	import '../app.css';
-	import HomeNav from '../globals/homeNav.svelte';
+	import HomeNav from '../../globals/homeNav.svelte';
 	export let data;
 </script>
 
