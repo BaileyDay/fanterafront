@@ -2,7 +2,6 @@
 	import AnimeSchedule from '../../blocks/animeSchedule.svelte';
 	import EmailHero from '../../blocks/emailHero.svelte';
 	export let data;
-	console.log(data);
 
 	const blockComponents = {
 		emailHero: EmailHero,

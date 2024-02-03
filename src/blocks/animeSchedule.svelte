@@ -103,7 +103,7 @@
 										style="background-image: url('https://img.animeschedule.net/production/assets/public/img/{anime.imageVersionRoute}'); "
 									>
 										<!-- Overlay content -->
-										<div class="relative z-50">
+										<div class="relative z-40">
 											<div class="text-white font-extrabold p-4 rounded-lg drop-shadow-xl text-lg">
 												{anime.english || anime.title}
 											</div>

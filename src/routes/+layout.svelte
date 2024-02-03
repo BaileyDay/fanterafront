@@ -1,8 +1,8 @@
 <script>
 	import '../app.css';
-	import Nav from '../globals/nav.svelte';
+	import HomeNav from '../globals/homeNav.svelte';
 </script>
 
-<Nav />
+<HomeNav />
 
 <slot />
