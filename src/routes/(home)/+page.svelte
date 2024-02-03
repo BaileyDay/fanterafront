@@ -10,6 +10,7 @@
 	};
 </script>
 
+<!-- Updated to iterate over data.pageData.content -->
 {#each data.content as block}
 	{#if block.blockType in blockComponents}
 		<svelte:component this={blockComponents[block.blockType]} data={block} />
