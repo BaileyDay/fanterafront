@@ -1,0 +1,43 @@
+<script>
+	export let data;
+	import './content-style.css';
+	import { getImageUrl } from '../services/getImageUrl';
+	import { parse } from 'node-html-parser';
+
+	let processedHtml = ''; // Initialize with empty string
+
+	// Reactive statement that watches for changes in `data.body_html`
+	$: processedHtml = data && data.body_html ? processHtmlContent(data.body_html) : '';
+
+	function processHtmlContent(htmlContent) {
+		const root = parse(htmlContent); // Directly parse the HTML content
+
+		// Find all <img> and <source> elements and update their src or srcset attributes
+		const images = root.querySelectorAll('img');
+		images.forEach((img) => {
+			const relativePath = img.getAttribute('src');
+			img.setAttribute('src', getImageUrl(relativePath));
+		});
+
+		const sources = root.querySelectorAll('source');
+		sources.forEach((source) => {
+			const relativePath = source.getAttribute('srcset');
+			source.setAttribute('srcset', getImageUrl(relativePath));
+		});
+
+		return root.toString(); // Return the updated HTML as a string
+	}
+</script>
+
+<div class="bg-white px-6 py-32 lg:px-8">
+	<div class="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+		<p class="text-base font-semibold leading-7 text-sky-600">{data.subtitle}</p>
+		<span class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+			{@html data.title_html}
+		</span>
+		<div class="content-style">
+			{@html processedHtml}
+			<!-- Use processedHtml to render the modified content -->
+		</div>
+	</div>
+</div>

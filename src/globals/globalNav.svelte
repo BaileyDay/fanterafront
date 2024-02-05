@@ -14,7 +14,6 @@
 	onMount(async () => {
 		const data = await getGlobalBySlug('nav');
 		globalData = data;
-		console.log(globalData);
 	});
 
 	// Handle scroll to adjust navbar class
@@ -52,7 +51,7 @@
 </script>
 
 <nav
-	class="fixed inset-x-0 top-0 z-50 mx-auto flex h-[74px] w-full items-center justify-between px-4 py-4 transition-all delay-100 duration-300 ease-in-out lg:h-24 lg:px-32 bg-sky-500 {navClass}"
+	class="fixed inset-x-0 top-0 z-50 mx-auto flex h-[74px] w-full items-center justify-between px-4 py-4 transition-all delay-100 duration-300 ease-in-out lg:h-24 lg:px-32 lg:bg-transparent bg-sky-500 {navClass}"
 >
 	<div class="flex items-center lg:hidden">
 		<Sheet.Root>
