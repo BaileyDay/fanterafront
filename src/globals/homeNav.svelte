@@ -4,6 +4,7 @@
 	import { Menu } from 'lucide-svelte';
 	import { getGlobalBySlug } from '../services/api';
 	import { getImageUrl } from '../services/getImageUrl';
+	import Icon from '@iconify/svelte';
 
 	let navClass = '';
 	let drawerOpen = false;
@@ -37,6 +38,17 @@
 	function toggleDrawer() {
 		drawerOpen = !drawerOpen;
 	}
+
+	const pageIcons = {
+		home: 'tabler:home-2',
+		about: 'tabler:info-circle',
+		contact: 'mdi-light:email'
+		// Add more mappings as needed
+	};
+
+	function getIconForPage(pageSlug) {
+		return pageIcons[pageSlug] || 'mdi-light:file-document'; // Default icon
+	}
 </script>
 
 <nav
@@ -49,15 +61,20 @@
 					<Menu class="text-white" />
 				</button>
 			</Sheet.Trigger>
-			<Sheet.Content side="left">
+			<Sheet.Content side="left" class="bg-sky-500">
 				<Sheet.Header>
-					<Sheet.Title>Menu</Sheet.Title>
+					<Sheet.Title class="text-white">Menu</Sheet.Title>
+					<hr />
 				</Sheet.Header>
 				<div class="p-4">
 					{#each globalData.pages as page}
-						<a href="/{page.page.slug}" class="block p-2 font-montserrat font-bold"
-							>{page.page.title}</a
-						>
+						<a href="/{page.page.slug}" class="block p-2 font-montserrat font-bold text-white">
+							<Icon
+								icon={getIconForPage(page.page.slug)}
+								class="inline-block h-8 w-5 mr-2 text-white"
+							/>
+							{page.page.title}
+						</a>
 					{/each}
 				</div>
 			</Sheet.Content>
@@ -77,7 +94,7 @@
 	<div class="lg:hidden flex">
 		<!-- Invisible placeholder to balance the flex layout -->
 	</div>
-	<ul class="hidden space-x-8 lg:flex">
+	<ul class="hidden space-x-8 lg:flex mr-4">
 		{#each globalData.pages as page}
 			<li>
 				<a
