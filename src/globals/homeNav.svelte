@@ -14,7 +14,6 @@
 	onMount(async () => {
 		const data = await getGlobalBySlug('nav');
 		globalData = data;
-		console.log(globalData);
 	});
 
 	// Handle scroll to adjust navbar class
