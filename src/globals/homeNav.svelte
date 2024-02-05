@@ -3,15 +3,17 @@
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { Menu } from 'lucide-svelte';
 	import { getGlobalBySlug } from '../services/api';
+	import { getImageUrl } from '../services/getImageUrl';
 
 	let navClass = '';
 	let drawerOpen = false;
 
-	let globalData = { pages: [] };
+	let globalData = { pages: [], desktopLogo: {}, mobileLogo: {} };
 
 	onMount(async () => {
 		const data = await getGlobalBySlug('nav');
 		globalData = data;
+		console.log(globalData);
 	});
 
 	// Handle scroll to adjust navbar class
@@ -53,20 +55,22 @@
 				</Sheet.Header>
 				<div class="p-4">
 					{#each globalData.pages as page}
-						<a href="/{page.page.slug}" class="block p-2">{page.page.title}</a>
+						<a href="/{page.page.slug}" class="block p-2 font-montserrat font-bold"
+							>{page.page.title}</a
+						>
 					{/each}
 				</div>
 			</Sheet.Content>
 		</Sheet.Root>
 	</div>
 	<!-- Centering the logo on mobile and desktop -->
-	<a href="/" class="flex-grow justify-center hidden lg:flex">
-		<span>Fantera</span>
+	<a href="/" class="flex-grow hidden lg:flex"
+		><img src={getImageUrl(globalData.desktopLogo.url)} class="h-14" alt="" />
 	</a>
 	<!-- Mobile Logo -->
-	<div class="flex lg:hidden flex-grow justify-center text-white">
+	<div class="flex lg:hidden flex-grow justify-center text-white ml-4">
 		<a href="/">
-			<span>Fantera</span>
+			<img src={getImageUrl(globalData.mobileLogo.url)} alt="" class="h-10" />
 		</a>
 	</div>
 	<!-- This empty div ensures the space-between effect which centers the logo when the menu is visible -->
@@ -76,7 +80,9 @@
 	<ul class="hidden space-x-8 lg:flex">
 		{#each globalData.pages as page}
 			<li>
-				<a href="/{page.page.slug}" class="block text-slate-900 hover:text-sky-500 dark:text-white"
+				<a
+					href="/{page.page.slug}"
+					class="block text-slate-900 hover:text-sky-500 dark:text-white font-montserrat font-bold"
 					>{page.page.title}</a
 				>
 			</li>
