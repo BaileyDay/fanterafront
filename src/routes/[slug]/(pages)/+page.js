@@ -16,11 +16,11 @@ export async function load({ params }) {
 		console.error('Error fetching page:', error);
 	}
 
-	// Ensure you return an object with props for SvelteKit load function
-	if (pageData) {
-		return pageData; // Correctly pass pageData as props
+	if (!pageData) {
+		error(404, {
+			message: 'Not found'
+		});
 	} else {
-		// Handle case where no page data is found, perhaps return an error status or default data
-		error(404, 'Not found');
+		return pageData;
 	}
 }
