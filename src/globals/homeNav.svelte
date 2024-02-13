@@ -67,7 +67,7 @@
 				</Sheet.Header>
 				<div class="p-4">
 					{#each globalData.pages as page}
-						<a href="/{page.page.slug}" class="block p-2 font-montserrat font-bold text-white">
+						<a href="/page/{page.page.slug}" class="block p-2 font-montserrat font-bold text-white">
 							<Icon
 								icon={getIconForPage(page.page.slug)}
 								class="inline-block h-8 w-5 mr-2 text-white"

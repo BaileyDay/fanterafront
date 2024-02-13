@@ -1,7 +1,6 @@
 <script>
 	import Button from '$lib/components/ui/button/button.svelte';
 	export let data;
-	console.log(data);
 </script>
 
 <div class="bg-white">

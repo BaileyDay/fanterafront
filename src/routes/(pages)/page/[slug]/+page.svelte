@@ -1,7 +1,7 @@
 <script lang="ts">
-	import AnimeSchedule from '../../../blocks/animeSchedule.svelte';
-	import EmailHero from '../../../blocks/emailHero.svelte';
-	import TextBlock from '../../../blocks/textBlock.svelte';
+	import AnimeSchedule from '../../../../blocks/animeSchedule.svelte';
+	import EmailHero from '../../../../blocks/emailHero.svelte';
+	import TextBlock from '../../../../blocks/textBlock.svelte';
 	export let data;
 
 	const blockComponents = {
@@ -10,7 +10,6 @@
 		textBlock: TextBlock
 		// ... other block types
 	};
-	console.log(data);
 </script>
 
 {#each data.content as block}

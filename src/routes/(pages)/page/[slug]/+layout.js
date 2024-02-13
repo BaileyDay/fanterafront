@@ -1,4 +1,4 @@
-import { getPageBySlug } from '../../../services/api.js';
+import { getPageBySlug } from '../../../../services/api.js';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
