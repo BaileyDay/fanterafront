@@ -48,7 +48,6 @@ export const getCategoryBySlug = async (slug) => {
 				addQueryPrefix: true // This adds the '?' at the beginning
 			}
 		);
-		console.log(query);
 
 		const response = await axios.get(`${API_BASE_URL}/categories${query}&depth=3`);
 		if (response.data && response.data.docs && response.data.docs.length > 0) {

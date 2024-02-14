@@ -1,7 +1,6 @@
 <script>
 	import { getImageUrl } from '../../../services/getImageUrl.js';
 	export let data;
-	console.log(data);
 </script>
 
 <div
@@ -82,6 +81,7 @@
 							{post.title}
 						</a>
 					</h3>
+					<p></p>
 				</article>
 			{/each}
 

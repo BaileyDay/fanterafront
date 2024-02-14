@@ -38,15 +38,21 @@
 		drawerOpen = !drawerOpen;
 	}
 
-	const pageIcons = {
-		home: 'tabler:home-2',
-		about: 'tabler:info-circle',
-		contact: 'mdi-light:email'
+	const icons = {
+		home: 'material-symbols:home-outline-rounded',
+		about: 'material-symbols:info-outline-rounded',
+		contact: 'mdi-light:email',
+		news: 'material-symbols:newsmode-outline-rounded',
+		'privacy-policy': 'material-symbols:privacy-tip-rounded',
+
+		// Categories icons
+
+		blog: 'fa6-solid:blog'
 		// Add more mappings as needed
 	};
 
-	function getIconForPage(pageSlug) {
-		return pageIcons[pageSlug] || 'mdi-light:file-document'; // Default icon
+	function getIcon(slug) {
+		return icons[slug] || 'mdi-light:file-document'; // Default icon
 	}
 </script>
 
@@ -54,30 +60,56 @@
 	class="fixed inset-x-0 top-0 z-50 mx-auto flex h-[74px] w-full items-center justify-between px-4 py-4 transition-all delay-100 duration-300 ease-in-out lg:h-24 lg:px-32 lg:bg-transparent bg-sky-500 rounded-b-xl {navClass}"
 >
 	<div class="flex items-center lg:hidden">
-		<Sheet.Root>
-			<Sheet.Trigger>
-				<button on:click={toggleDrawer} class="p-2">
-					<Menu class="text-white" />
-				</button>
-			</Sheet.Trigger>
-			<Sheet.Content side="left" class="bg-sky-500 rounded-r-xl">
-				<Sheet.Header>
-					<Sheet.Title class="text-white">Menu</Sheet.Title>
+		<div class="flex items-center lg:hidden">
+			<Sheet.Root>
+				<Sheet.Trigger>
+					<button on:click={toggleDrawer} class="p-2">
+						<Menu class="text-white" />
+					</button>
+				</Sheet.Trigger>
+				<Sheet.Content side="left" class="bg-sky-500 rounded-r-xl">
+					<Sheet.Header class="flex items-center text-white pb-2">
+						<a href="/" class=" flex items-center"
+							><img src={getImageUrl(globalData.mobileLogo.url)} alt="" class="h-10" />
+						</a>
+					</Sheet.Header>
 					<hr />
-				</Sheet.Header>
-				<div class="p-4">
+
 					{#each globalData.pages as page}
-						<a href="/page/{page.page.slug}" class="block p-2 font-montserrat font-bold text-white">
+						<div class="text-xl mt-4">
+							<a
+								href="/page/{page.page.slug}"
+								class="block p-2 font-bold text-white font-montserrat"
+							>
+								<Icon icon={getIcon(page.page.slug)} class="inline-block h-6 w-6 mr-2 mb-1 " />
+								{page.page.title}
+							</a>
+						</div>
+					{/each}
+
+					<div class="text-2xl mt-4">
+						<div class="block p-2 font-bold text-white font-montserrat">
 							<Icon
-								icon={getIconForPage(page.page.slug)}
-								class="inline-block h-8 w-5 mr-2 text-white"
+								icon="material-symbols:list-alt-outline-rounded"
+								class="inline-block h-6 w-6 mr-2 mb-1 "
 							/>
-							{page.page.title}
+							Categories
+						</div>
+						<hr />
+					</div>
+
+					{#each globalData.categories as category}
+						<a
+							href="/{category.category.slug}"
+							class="block p-2 font-bold text-white text-xl mt-4 font-montserrat"
+						>
+							<Icon icon={getIcon(category.category.slug)} class="inline-block h-5 w-5 mr-2 mb-1" />
+							{category.category.name}
 						</a>
 					{/each}
-				</div>
-			</Sheet.Content>
-		</Sheet.Root>
+				</Sheet.Content>
+			</Sheet.Root>
+		</div>
 	</div>
 	<!-- Centering the logo on mobile and desktop -->
 	<a href="/" class="flex-grow hidden lg:flex"

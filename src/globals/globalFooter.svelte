@@ -1,18 +1,17 @@
 <script>
-	let year = new Date().getFullYear();
+	import { onMount } from 'svelte';
+	import { getGlobalBySlug } from '../services/api';
+	import { getImageUrl } from '../services/getImageUrl';
 
-	const footerLinks = [
-		{
-			category: 'About',
-			links: [
-				{ name: 'About Us', url: '/about' },
-				{ name: 'Rss Feed', url: '/api/rss' },
-				{ name: 'Privacy Policy', url: '/page/privacy-policy' },
-				{ name: 'Terms of Service', url: '/page/terms-of-service' }
-			]
-		}
-		// Other categories...
-	];
+	let globalData = { footerLinks: [], logo: {} };
+
+	onMount(async () => {
+		const data = await getGlobalBySlug('footer');
+		globalData = data;
+		console.log(globalData);
+	});
+
+	let year = new Date().getFullYear();
 </script>
 
 <svg
@@ -35,6 +34,11 @@
 			<!-- Logo and intro section -->
 			<div class="col-span-2">
 				<!-- Logo goes here, ensure you have a Logo.svelte or similar component -->
+				<div class="flex flex-grow text-white ml-2">
+					<a href="/">
+						<img src={getImageUrl(globalData.logo.url)} alt="" class="h-14" />
+					</a>
+				</div>
 				<p class="my-4 font-light text-slate-100 dark:text-gray-400">
 					Fantera is your ultimate destination for all things anime, offering a unique media
 					publishing site and newsletter to keep you updated on the latest trends, news, and
@@ -43,7 +47,7 @@
 				<!-- Social links icons -->
 			</div>
 			<!-- Footer Links -->
-			{#each footerLinks as { category, links }}
+			{#each globalData.footerLinks as { category, links }}
 				<div class="lg:mx-auto">
 					<h2 class="mb-6 text-sm font-bold uppercase text-slate-100 dark:text-white">
 						{category}

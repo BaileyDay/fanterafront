@@ -18,7 +18,7 @@
 			<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
 				Sorry, we can't find that page. You'll find lots to explore on the home page.
 			</p>
-			<Button href="/home" variant="sky" class="i">Back to Homepage</Button>
+			<Button href="/" variant="sky" data-sveltekit-preload-data="false">Back to Homepage</Button>
 		</div>
 	</div>
 </section>

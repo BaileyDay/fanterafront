@@ -1,6 +1,6 @@
-// src/routes/posts/[category]/+page.js
 import { getCategoryBySlug } from '../../../services/api.js';
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 export async function load({ params }) {
 	let categoryData;
@@ -10,17 +10,17 @@ export async function load({ params }) {
 	}
 
 	try {
-		// Directly use the response from getCategoryBySlug
+		// Directly use the response from getPageBySlug
 		categoryData = await getCategoryBySlug(params.category);
-	} catch (err) {
-		console.error('Error fetching category:', err);
+	} catch (error) {
+		console.error('Error fetching page:', error);
 	}
 
 	if (!categoryData) {
-		// If no category data was found, throw a 404 error
-		throw error(404, 'Category not found');
+		error(404, {
+			message: 'Not found'
+		});
+	} else {
+		return categoryData;
 	}
-
-	// If category data is found, return it to the page
-	return categoryData;
 }
