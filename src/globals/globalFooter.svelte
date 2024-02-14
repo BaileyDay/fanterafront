@@ -8,7 +8,6 @@
 	onMount(async () => {
 		const data = await getGlobalBySlug('footer');
 		globalData = data;
-		console.log(globalData);
 	});
 
 	let year = new Date().getFullYear();
