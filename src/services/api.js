@@ -19,7 +19,7 @@ export const getPageBySlug = async (slug) => {
 			}
 		);
 
-		const response = await axios.get(`${API_BASE_URL}/pages${query}&depth=1`);
+		const response = await axios.get(`${API_BASE_URL}/pages${query}&depth=2`);
 		if (response.data && response.data.docs && response.data.docs.length > 0) {
 			// Assuming 'docs' contains the pages and you're interested in the first match
 			return response.data.docs[0];
