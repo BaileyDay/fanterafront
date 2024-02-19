@@ -63,6 +63,36 @@ export const getCategoryBySlug = async (slug) => {
 	}
 };
 
+export const getPostBySlug = async (slug) => {
+	try {
+		// Construct the query using `qs`
+		const query = qs.stringify(
+			{
+				where: {
+					slug: {
+						equals: slug
+					}
+				}
+			},
+			{
+				addQueryPrefix: true // This adds the '?' at the beginning
+			}
+		);
+
+		const response = await axios.get(`${API_BASE_URL}/posts${query}&depth=2`);
+		if (response.data && response.data.docs && response.data.docs.length > 0) {
+			// Assuming 'docs' contains the pages and you're interested in the first match
+			return response.data.docs[0];
+		} else {
+			// Handle no results or errors as needed
+			return null;
+		}
+	} catch (error) {
+		console.error('Error fetching page by slug:', error);
+		throw error;
+	}
+};
+
 export const getGlobalBySlug = async (slug) => {
 	try {
 		const response = await axios.get(`${API_BASE_URL}/globals/${slug}?depth=1`);

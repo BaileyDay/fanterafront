@@ -76,7 +76,7 @@
 					<hr />
 
 					{#each globalData.pages as page}
-						<div class="text-xl mt-4">
+						<div class="text-xl mt-2">
 							<a
 								href="/page/{page.page.slug}"
 								class="block p-2 font-bold text-white font-montserrat"

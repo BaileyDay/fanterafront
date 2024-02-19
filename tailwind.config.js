@@ -61,7 +61,8 @@ const config = {
 				garamond: ['Garamond']
 			}
 		}
-	}
+	},
+	plugins: [require('flowbite-typography')]
 };
 
 export default config;
