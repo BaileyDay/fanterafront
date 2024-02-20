@@ -1,6 +1,7 @@
 <script>
 	import PostBody from '../../../../blocks/postBody.svelte';
 	import { getImageUrl } from '../../../../services/getImageUrl';
+	import * as Avatar from '$lib/components/ui/avatar';
 	export let data;
 	console.log(data);
 	const blockComponents = {
@@ -45,8 +46,18 @@
 				<div
 					class="flex items-center space-x-3 text-gray-500 dark:text-gray-400 text-base mb-2 lg:mb-0"
 				>
+					<Avatar.Root>
+						<Avatar.Image
+							class="mt-0 lg:mt-0"
+							src={getImageUrl(data.author.profilePicture.url)}
+							alt={data.author.profilePicture.alt}
+						/>
+						<Avatar.Fallback>F</Avatar.Fallback>
+					</Avatar.Root>
 					<span
-						>By <a
+						>By
+
+						<a
 							href="#"
 							class="text-gray-900 dark:text-white hover:underline no-underline font-semibold"
 							>{data.author.username}</a
@@ -57,7 +68,12 @@
 						><time
 							class="font-normal text-gray-500 dark:text-gray-400"
 							datetime="2022-03-08"
-							title="August 3rd, 2022">August 3, 2022, 2:20am EDT</time
+							title="August 3rd, 2022"
+							>{new Date(data.updatedAt).toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric'
+							})}</time
 						></span
 					>
 				</div>

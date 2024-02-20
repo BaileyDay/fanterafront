@@ -3,7 +3,6 @@
 	import './content-style.css';
 	import { getImageUrl } from '../services/getImageUrl';
 	import { parse } from 'node-html-parser';
-	console.log(data);
 
 	let processedHtml = ''; // Initialize with empty string
 
