@@ -3,134 +3,87 @@ import qs from 'qs';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
-export const getPageBySlug = async (slug) => {
-	try {
-		// Construct the query using `qs`
-		const query = qs.stringify(
-			{
-				where: {
-					slug: {
-						equals: slug
-					}
-				}
-			},
-			{
-				addQueryPrefix: true // This adds the '?' at the beginning
-			}
-		);
-
-		const response = await axios.get(`${API_BASE_URL}/pages${query}&depth=2`);
-		if (response.data && response.data.docs && response.data.docs.length > 0) {
-			// Assuming 'docs' contains the pages and you're interested in the first match
-			return response.data.docs[0];
-		} else {
-			// Handle no results or errors as needed
-			return null;
-		}
-	} catch (error) {
-		console.error('Error fetching page by slug:', error);
-		throw error;
+const handleResponse = (response) => {
+	if (response.data && response.data.docs && response.data.docs.length > 0) {
+		return response.data.docs[0];
+	} else {
+		return response.data || null;
 	}
+};
+
+const handleError = (error, errorMessage) => {
+	console.error(errorMessage, error);
+	throw error;
+};
+
+const constructQuery = (params) => {
+	return qs.stringify(params, {
+		addQueryPrefix: true
+	});
+};
+
+const fetchData = async (url) => {
+	try {
+		const response = await axios.get(url);
+		return handleResponse(response);
+	} catch (error) {
+		handleError(error, 'Error fetching data:');
+	}
+};
+
+export const getPageBySlug = async (slug) => {
+	const query = constructQuery({
+		where: {
+			slug: {
+				equals: slug
+			}
+		},
+		depth: 2
+	});
+
+	const url = `${API_BASE_URL}/pages${query}`;
+	return fetchData(url);
 };
 
 export const getCategoryBySlug = async (slug) => {
-	try {
-		// Construct the query using `qs`
-		const query = qs.stringify(
-			{
-				where: {
-					slug: {
-						equals: slug
-					}
-				}
-			},
-			{
-				addQueryPrefix: true // This adds the '?' at the beginning
+	const query = constructQuery({
+		where: {
+			slug: {
+				equals: slug
 			}
-		);
+		},
+		depth: 3
+	});
 
-		const response = await axios.get(`${API_BASE_URL}/categories${query}&depth=3`);
-		if (response.data && response.data.docs && response.data.docs.length > 0) {
-			// Assuming 'docs' contains the categories and you're interested in the first match
-			return response.data.docs[0];
-		} else {
-			// Handle no results or errors as needed
-			return null;
-		}
-	} catch (error) {
-		console.error('Error fetching category by slug:', error);
-		throw error;
-	}
+	const url = `${API_BASE_URL}/categories${query}`;
+	return fetchData(url);
 };
 
 export const getPostBySlug = async (slug) => {
-	try {
-		// Construct the query using `qs`
-		const query = qs.stringify(
-			{
-				where: {
-					slug: {
-						equals: slug
-					}
-				}
-			},
-			{
-				addQueryPrefix: true // This adds the '?' at the beginning
+	const query = constructQuery({
+		where: {
+			slug: {
+				equals: slug
 			}
-		);
+		},
+		depth: 2
+	});
 
-		const response = await axios.get(`${API_BASE_URL}/posts${query}&depth=2`);
-		if (response.data && response.data.docs && response.data.docs.length > 0) {
-			// Assuming 'docs' contains the pages and you're interested in the first match
-			return response.data.docs[0];
-		} else {
-			// Handle no results or errors as needed
-			return null;
-		}
-	} catch (error) {
-		console.error('Error fetching page by slug:', error);
-		throw error;
-	}
+	const url = `${API_BASE_URL}/posts${query}`;
+	return fetchData(url);
 };
 
 export const getGlobalBySlug = async (slug) => {
-	try {
-		const response = await axios.get(`${API_BASE_URL}/globals/${slug}?depth=1`);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching data:', error);
-		throw error;
-	}
+	const url = `${API_BASE_URL}/globals/${slug}?depth=1`;
+	return fetchData(url);
 };
 
-// Fetch all pages
 export const getAllPages = async () => {
-	try {
-		const response = await axios.get(`${API_BASE_URL}/pages?depth=1`);
-		if (response.data && response.data.docs) {
-			// Assuming 'docs' contains the array of pages
-			return response.data.docs;
-		} else {
-			return [];
-		}
-	} catch (error) {
-		console.error('Error fetching all pages:', error);
-		throw error;
-	}
+	const url = `${API_BASE_URL}/pages?depth=1`;
+	return fetchData(url);
 };
 
-// Fetch all categories
 export const getAllCategories = async () => {
-	try {
-		const response = await axios.get(`${API_BASE_URL}/categories?depth=4`);
-		if (response.data && response.data.docs) {
-			// Assuming 'docs' contains the array of categories
-			return response.data.docs;
-		} else {
-			return [];
-		}
-	} catch (error) {
-		console.error('Error fetching all categories:', error);
-		throw error;
-	}
+	const url = `${API_BASE_URL}/categories?depth=4`;
+	return fetchData(url);
 };

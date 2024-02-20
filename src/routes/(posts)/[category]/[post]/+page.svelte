@@ -3,7 +3,6 @@
 	import { getImageUrl } from '../../../../services/getImageUrl';
 	import * as Avatar from '$lib/components/ui/avatar';
 	export let data;
-	console.log(data);
 	const blockComponents = {
 		postBody: PostBody
 	};
@@ -15,6 +14,7 @@
 			src={getImageUrl(data.heroImage.url)}
 			alt="Hero Image"
 			class="w-full h-full object-cover object-center"
+			aria-hidden="true"
 		/>
 		<div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
 		<div

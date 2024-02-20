@@ -6,14 +6,50 @@
 	import { getImageUrl } from '../services/getImageUrl';
 	import Icon from '@iconify/svelte';
 
+	// Define types
+	interface Page {
+		slug: string;
+		title: string;
+	}
+
+	interface Category {
+		slug: string;
+		name: string;
+	}
+
+	interface GlobalData {
+		pages: Page[];
+		desktopLogo: { url: string };
+		mobileLogo: { url: string };
+		categories: Category[];
+	}
+
+	// Initialize variables
 	let navClass = '';
 	let drawerOpen = false;
+	let globalData: GlobalData = {
+		pages: [],
+		desktopLogo: { url: '' },
+		mobileLogo: { url: '' },
+		categories: []
+	};
 
-	let globalData = { pages: [], desktopLogo: {}, mobileLogo: {} };
-
+	// Fetch global data on mount
 	onMount(async () => {
 		const data = await getGlobalBySlug('nav');
-		globalData = data;
+		console.log(data);
+		globalData = {
+			pages: data.pages.map((page: { page: { slug: string; title: string } }) => ({
+				slug: page.page.slug,
+				title: page.page.title
+			})),
+			desktopLogo: { url: data.desktopLogo.url },
+			mobileLogo: { url: data.mobileLogo.url },
+			categories: data.categories.map((category: { category: Category }) => ({
+				slug: category.category.slug,
+				name: category.category.name
+			}))
+		};
 	});
 
 	// Handle scroll to adjust navbar class
@@ -38,20 +74,21 @@
 		drawerOpen = !drawerOpen;
 	}
 
-	const icons = {
-		home: 'material-symbols:home-outline-rounded',
-		about: 'material-symbols:info-outline-rounded',
-		contact: 'mdi-light:email',
-		news: 'material-symbols:newsmode-outline-rounded',
-		'privacy-policy': 'material-symbols:privacy-tip-rounded',
-
-		// Categories icons
-
-		blog: 'fa6-solid:blog'
-		// Add more mappings as needed
-	};
-
-	function getIcon(slug) {
+	// Get icon based on slug
+	function getIcon(slug: string): string {
+		const icons: Record<string, string> = {
+			home: 'material-symbols:home-outline-rounded',
+			about: 'material-symbols:info-outline-rounded',
+			contact: 'mdi-light:email',
+			news: 'material-symbols:newsmode-outline-rounded',
+			culture: 'mdi:heart-outline',
+			streaming: 'ic:round-live-tv',
+			reviews: 'ph:star',
+			lore: 'ph:scroll',
+			manga: 'ph:books',
+			guides: 'mdi:compass-outline',
+			'privacy-policy': 'material-symbols:privacy-tip-rounded'
+		};
 		return icons[slug] || 'mdi-light:file-document'; // Default icon
 	}
 </script>
@@ -69,20 +106,17 @@
 				</Sheet.Trigger>
 				<Sheet.Content side="left" class="bg-sky-500 rounded-r-xl">
 					<Sheet.Header class="flex items-center text-white pb-2">
-						<a href="/" class=" flex items-center"
-							><img src={getImageUrl(globalData.mobileLogo.url)} alt="" class="h-10" />
+						<a href="/" class=" flex items-center">
+							<img src={getImageUrl(globalData.mobileLogo.url)} alt="" class="h-10" />
 						</a>
 					</Sheet.Header>
 					<hr />
 
-					{#each globalData.pages as page}
+					{#each globalData.pages as page (page.slug)}
 						<div class="text-xl mt-2">
-							<a
-								href="/page/{page.page.slug}"
-								class="block p-2 font-bold text-white font-montserrat"
-							>
-								<Icon icon={getIcon(page.page.slug)} class="inline-block h-6 w-6 mr-2 mb-1 " />
-								{page.page.title}
+							<a href="/page/{page.slug}" class="block p-2 font-bold text-white font-montserrat">
+								<Icon icon={getIcon(page.slug)} class="inline-block h-6 w-6 mr-2 mb-1 " />
+								{page.title}
 							</a>
 						</div>
 					{/each}
@@ -98,13 +132,13 @@
 						<hr />
 					</div>
 
-					{#each globalData.categories as category}
+					{#each globalData.categories as category (category.slug)}
 						<a
-							href="/{category.category.slug}"
+							href="/{category.slug}"
 							class="block p-2 font-bold text-white text-xl mt-4 font-montserrat"
 						>
-							<Icon icon={getIcon(category.category.slug)} class="inline-block h-5 w-5 mr-2 mb-1" />
-							{category.category.name}
+							<Icon icon={getIcon(category.slug)} class="inline-block h-5 w-5 mr-2 mb-1" />
+							{category.name}
 						</a>
 					{/each}
 				</Sheet.Content>
@@ -112,8 +146,8 @@
 		</div>
 	</div>
 	<!-- Centering the logo on mobile and desktop -->
-	<a href="/" class="flex-grow hidden lg:flex"
-		><img src={getImageUrl(globalData.desktopLogo.url)} class="h-14" alt="" />
+	<a href="/" class="flex-grow hidden lg:flex">
+		<img src={getImageUrl(globalData.desktopLogo.url)} class="h-14" alt="" />
 	</a>
 	<!-- Mobile Logo -->
 	<div class="flex lg:hidden flex-grow justify-center text-white ml-4">
@@ -126,12 +160,12 @@
 		<!-- Invisible placeholder to balance the flex layout -->
 	</div>
 	<ul class="hidden space-x-8 lg:flex mr-4">
-		{#each globalData.pages as page}
+		{#each globalData.pages as page (page.slug)}
 			<li>
 				<a
-					href="/{page.page.slug}"
+					href="/{page.slug}"
 					class="block text-slate-900 hover:text-sky-500 dark:text-white font-montserrat font-bold"
-					>{page.page.title}</a
+					>{page.title}</a
 				>
 			</li>
 		{/each}
@@ -140,7 +174,7 @@
 		href="/subscribe"
 		type="button"
 		class="relative ml-2 inline-flex flex-none overflow-hidden rounded-full border border-white p-2 text-center text-sm
-  font-light text-white transition duration-300 ease-in-out hover:text-white focus:outline-none focus:ring-4 lg:mr-0 lg:rounded-xl lg:border-2 lg:border-none lg:px-10 lg:py-6 lg:font-semibold"
+	font-light text-white transition duration-300 ease-in-out hover:text-white focus:outline-none focus:ring-4 lg:mr-0 lg:rounded-xl lg:border-2 lg:border-none lg:px-10 lg:py-6 lg:font-semibold"
 	>
 		<span
 			class="absolute left-0 top-0 z-0 h-full w-full transition-opacity duration-300 ease-in-out lg:bg-gradient-to-br lg:from-blue-500 lg:to-sky-400"
