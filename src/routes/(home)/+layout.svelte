@@ -23,7 +23,7 @@
 	/>
 	<meta
 		property="og:image"
-		content={getImageUrl(data.meta.image.url) || 'https://api.fantera.online/media/meta.png'}
+		content={getImageUrl(data?.meta?.image?.url) || 'https://api.fantera.online/media/meta.png'}
 	/>
 
 	<!-- Twitter Meta Tags -->
@@ -38,7 +38,7 @@
 	/>
 	<meta
 		name="twitter:image"
-		content={getImageUrl(data.meta.image.url) || 'https://api.fantera.online/media/meta.png'}
+		content={getImageUrl(data?.meta?.image?.url) || 'https://api.fantera.online/media/meta.png'}
 	/>
 </svelte:head>
 <HomeNav />

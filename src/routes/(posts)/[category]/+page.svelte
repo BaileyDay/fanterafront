@@ -7,7 +7,7 @@
 	class=" relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32 mt-16 lg:mt-48 lg:w-1/2 lg:mx-auto lg:rounded-xl"
 >
 	<img
-		src={getImageUrl(data.heroImage.url)}
+		src={getImageUrl(data?.heroImage?.url)}
 		alt=""
 		class="absolute inset-0 -z-10 h-full w-full object-cover bg-blend-multiply opacity-15"
 	/>

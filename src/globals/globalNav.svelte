@@ -37,7 +37,6 @@
 	// Fetch global data on mount
 	onMount(async () => {
 		const data = await getGlobalBySlug('nav');
-		console.log(data);
 		globalData = {
 			pages: data.pages.map((page: { page: { slug: string; title: string } }) => ({
 				slug: page.page.slug,
@@ -104,7 +103,7 @@
 						<Menu class="text-white" />
 					</button>
 				</Sheet.Trigger>
-				<Sheet.Content side="left" class="bg-sky-500 rounded-r-xl">
+				<Sheet.Content side="left" class="bg-sky-500 rounded-r-xl overflow-y-auto">
 					<Sheet.Header class="flex items-center text-white pb-2">
 						<a href="/" class=" flex items-center">
 							<img src={getImageUrl(globalData.mobileLogo.url)} alt="" class="h-10" />
